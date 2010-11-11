@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="pch">
+      <UniqueIdentifier>{de287733-85e3-42fe-b35c-a29af781736a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pch\include">
+      <UniqueIdentifier>{102e2978-ae5e-484a-b365-cc8b19125064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="pch\src">
+      <UniqueIdentifier>{db939cde-e992-4522-b2ec-0638dc0be56c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\pyrope">
+      <UniqueIdentifier>{3b13f65a-64fa-42e9-8e2a-b31914a3021e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>pch\include</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>pch\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pyrope\_pyrope.h">
+      <Filter>ヘッダー ファイル\pyrope</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pyrope\handle.h">
+      <Filter>ヘッダー ファイル\pyrope</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pyrope\win32io.h">
+      <Filter>ヘッダー ファイル\pyrope</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pyrope\win32io_util.h">
+      <Filter>ヘッダー ファイル\pyrope</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pyrope\security_descriptor.h">
+      <Filter>ヘッダー ファイル\pyrope</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pyrope\w32_signal.h">
+      <Filter>ヘッダー ファイル\pyrope</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\pyrope\w32_thread.h">
+      <Filter>ヘッダー ファイル\pyrope</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>pch\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\handle.c">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\security_descriptor.c">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\w32_signal.c">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\w32_thread.c">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\win32io.c">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\win32io_util.c">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
