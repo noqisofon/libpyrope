@@ -17,6 +17,7 @@
 *.html
 *.idb
 *.ilk
+*.ipch
 *.ini
 *.lastbuildstate
 *.li
