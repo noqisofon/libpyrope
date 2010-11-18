@@ -2,5 +2,5 @@
 2010-11-18T15:44:10+0900
 
 
-## libpyrope ‚Æ‚ÍH
-libpyrope ‚Í libgarnet ‚ÌŠg’£‚ÅAWIN32API ‚Ìƒ‰ƒbƒp[‚Å‚·B
+## libpyrope ã¨ã¯ï¼Ÿ
+libpyrope ã¯ libgarnet ã®æ‹¡å¼µã§ã€WIN32API ã®ãƒ©ãƒƒãƒ‘ãƒ¼ã§ã™ã€‚
