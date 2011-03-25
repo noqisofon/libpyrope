@@ -1,9 +1,10 @@
 #include <stdafx.h>
 
+#include <pyrope/_pyrope.h>
 #include <pyrope/security_descriptor.h>
 
 
-security_descriptor_t* w32_security_descriptor_new()
+security_descriptor_t* PYROPE_API w32_security_descriptor_new()
 {
     security_descriptor_t*   descriptor;
 
@@ -18,7 +19,7 @@ security_descriptor_t* w32_security_descriptor_new()
 }
 
 
-size_t w32_security_descriptor_length(security_descriptor_t* descriptor)
+size_t PYROPE_API w32_security_descriptor_length(security_descriptor_t* descriptor)
 {
     DWORD   declen;
 
@@ -31,11 +32,10 @@ size_t w32_security_descriptor_length(security_descriptor_t* descriptor)
 }
 
 
-gboolean w32_set_security_descriptor_dacl( security_descriptor_t*     descriptor,
-                                              gboolean                   present,
-                                              access_control_list_t*     dacl,
-                                              gboolean                   defaulted
-                                              )
+gboolean PYROPE_API w32_set_security_descriptor_dacl( security_descriptor_t*     descriptor,
+                                                      gboolean                   present,
+                                                      access_control_list_t*     dacl,
+                                                      gboolean                   defaulted )
 {
     if ( !descriptor )
         return 0;
@@ -43,9 +43,7 @@ gboolean w32_set_security_descriptor_dacl( security_descriptor_t*     descriptor
     if ( !SetSecurityDescriptorDacl( descriptor,
                                      present,
                                      dacl,
-                                     defaulted
-                                     )
-         )
+                                     defaulted ) )
         return false;
 
     return true;

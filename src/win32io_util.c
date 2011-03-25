@@ -1,6 +1,6 @@
 #include <stdafx.h>
 
-
+#include <pyrope/_pyrope.h>
 #include <pyrope/win32io_util.h>
 
 
@@ -13,10 +13,10 @@ static gboolean _M_delete_directory_closure( const gchar*       parent_path,
                                              );
 
 
-int pyrope_fprintf(handle_t stream, const gchar* format, ...)
+gint PYROPE_API pyrope_fprintf(handle_t stream, const gchar* format, ...)
 {
     va_list     args;
-    int         result;
+    gint         result;
 
     if ( pyrope_handle_is_invalid( stream ) )
 
@@ -28,9 +28,9 @@ int pyrope_fprintf(handle_t stream, const gchar* format, ...)
 }
 
 
-int pyrope_vfprintf(handle_t stream, const gchar* format, va_list args)
+gint PYROPE_API pyrope_vfprintf(handle_t stream, const gchar* format, va_list args)
 {
-    int         result;
+    gint        result;
     gchar       printing_buffer[PYROPE_PRINTING_BUFFER_LENGTH];
     ssize_t     bytes_written;
 
@@ -52,18 +52,19 @@ int pyrope_vfprintf(handle_t stream, const gchar* format, va_list args)
 }
 
 
-gboolean pyrope_file_is_exist(const gchar* find_path)
+gboolean PYROPE_API pyrope_file_is_exist(const gchar* find_path)
 {
-    uint32_t    ret;
-    int         last_separator_pos;
+    guint   ret;
+    gint    last_separator_pos;
+    gint    find_path_len;
 
-    gchar*      parent_path;
-    gchar*      filename;
+    gchar*  parent_path;
+    gchar*  filename;
 
     if ( !find_path )
         return false;
 
-    last_separator_pos  = g_str_last_index_of( find_path, PYROPE_DIRECTORY_SEPARATOR );
+    last_separator_pos  = g_str_last_index_of( find_path, PYROPE_HL_DIRECTORY_SEPARATOR );
     /*
      * "\" が無かった場合、parent_path に空文字列が入り、存在しないファイルとし
      * て判定されてしまうので parent_path には "." をいれておきます。
@@ -73,9 +74,10 @@ gboolean pyrope_file_is_exist(const gchar* find_path)
     else
         parent_path   = g_str_slice( find_path, 0, last_separator_pos );
 
+    find_path_len = __STATIC_CAST(gint, g_strlen( find_path ));
     filename   = g_str_slice( find_path,
                               last_separator_pos + 1,
-                              g_strlen( find_path ) - last_separator_pos
+                              find_path_len - last_separator_pos
                               );
 
     ret = SearchPath( parent_path,
@@ -94,11 +96,11 @@ gboolean pyrope_file_is_exist(const gchar* find_path)
 }
 
 
-gboolean pyrope_recursive_delete_directory(const gchar* original_path)
+gboolean PYROPE_API pyrope_recursive_delete_directory(const gchar* original_path)
 {
     WIN32_FIND_DATA     data;
 
-    size_t      last_separator_pos;
+    gint        last_separator_pos;
     gchar*      filepath;
     gchar*      filepart;
 
@@ -112,7 +114,7 @@ gboolean pyrope_recursive_delete_directory(const gchar* original_path)
     if ( !original_path )
         return false;
 
-    last_separator_pos  = g_str_last_index_of( original_path, PYROPE_DIRECTORY_SEPARATOR );
+    last_separator_pos  = g_str_last_index_of( original_path, PYROPE_HL_DIRECTORY_SEPARATOR );
     if ( last_separator_pos == -1 )
         return false;
 
@@ -134,8 +136,7 @@ gboolean pyrope_recursive_delete_directory(const gchar* original_path)
 
     do {
         if ( !g_str_equal( data.cFileName, PYROPE_HL_CURRENT_DIRECTORY )
-             && g_str_equal( data.cFileName, PYROPE_HL_PARENT_DIRECTORY )
-             ) {
+             && g_str_equal( data.cFileName, PYROPE_HL_PARENT_DIRECTORY ) ) {
             tmp_fullpath    = pyrope_path_combine( current_path, data.cFileName );
 
             if ( g_bitset_is_include( data.dwFileAttributes, FILE_ATTRIBUTE_DIRECTORY ) ) {
@@ -167,7 +168,7 @@ gboolean pyrope_recursive_delete_directory(const gchar* original_path)
 }
 
 
-gchar* pyrope_path_combine(const gchar* path1, const gchar* path2)
+gchar* PYROPE_API pyrope_path_combine(const gchar* path1, const gchar* path2)
 {
     size_t  path1_len, path2_len;
     gchar*  ret_path;
@@ -188,7 +189,7 @@ gchar* pyrope_path_combine(const gchar* path1, const gchar* path2)
 
     return ret_path;
 }
-gchar* pyrope_path_combine3(const gchar* path1, const gchar* path2, const gchar* path3)
+gchar* PYROPE_API pyrope_path_combine3(const gchar* path1, const gchar* path2, const gchar* path3)
 {
     size_t  path1_len, path2_len, path3_len;
     gchar*  ret_path;
@@ -212,7 +213,7 @@ gchar* pyrope_path_combine3(const gchar* path1, const gchar* path2, const gchar*
 
     return ret_path;
 }
-gchar* pyrope_path_combine4(const gchar* path1, const gchar* path2, const gchar* path3, const gchar* path4)
+gchar* PYROPE_API pyrope_path_combine4(const gchar* path1, const gchar* path2, const gchar* path3, const gchar* path4)
 {
     size_t  path1_len, path2_len, path3_len, path4_len;
     gchar*  ret_path;
@@ -258,7 +259,7 @@ static gboolean _M_delete_directory_closure( const gchar*       parent_path,
         return false;
 
     current_path    = w32_search_path( parent_path, directory_name );
-    find_path       = pyrope_path_combine( current_path, PYROPE_WILDCARD );
+    find_path       = pyrope_path_combine( current_path, PYROPE_HL_WILDCARD );
 
     finder          = w32_find_begin( find_path, find_data );
     if ( pyrope_handle_is_invalid( finder ) ) {
@@ -270,13 +271,14 @@ static gboolean _M_delete_directory_closure( const gchar*       parent_path,
 
     do {
         if ( !g_str_equal( find_data->cFileName, PYROPE_HL_CURRENT_DIRECTORY )
-             && !g_str_equal( find_data->cFileName, PYROPE_HL_PARENT_DIRECTORY )
-             ) {
+             && !g_str_equal( find_data->cFileName, PYROPE_HL_PARENT_DIRECTORY ) ) {
             tmp_path    = pyrope_path_combine( current_path, find_data->cFileName );
 
-            if ( g_bitset_is_include( find_data->dwFileAttributes,
-                                      FILE_ATTRIBUTE_DIRECTORY ) ) {
-                if ( _M_delete_directory_closure( current_path, find_data->cFileName, &find_data) ) {
+            if ( g_bitset_is_include( find_data->dwFileAttributes, FILE_ATTRIBUTE_DIRECTORY ) ) {
+                // 現在のファイルデータのファイル属性がディレクトリだったら、
+                if ( !_M_delete_directory_closure( current_path, find_data->cFileName, find_data) ) {
+                    // ディレクトリの中身の削除が失敗したら、
+                    // 最後に動的に割り当てたバッファを開放します。
                     g_delete( current_path );
                     g_delete( find_path );
                     g_delete( tmp_path );

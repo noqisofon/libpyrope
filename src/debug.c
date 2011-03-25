@@ -1,3 +1,8 @@
+#include <stdafx.h>
+
+#include <pyrope/debug.h>
+
+
 gchar*  w32_str_error(guint err)
 {
     VALUE       message_buffer;

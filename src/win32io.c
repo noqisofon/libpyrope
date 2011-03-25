@@ -2,6 +2,7 @@
 
 #include <math.h>
 
+#include <pyrope/_pyrope.h>
 #include <pyrope/handle.h>
 #include <pyrope/win32io.h>
 #include <pyrope/win32io_util.h>
@@ -16,7 +17,7 @@ static gchar* _M_get_long_filename_closure( const gchar*        filename,
                                             );
 
 
-handle_t w32_file_open(const gchar* filename, int filemode)
+handle_t PYROPE_API w32_file_open(const gchar* filename, int filemode)
 {
     handle_t    stream;
 
@@ -41,7 +42,7 @@ handle_t w32_file_open(const gchar* filename, int filemode)
 }
 
 
-ssize_t w32_file_write(handle_t stream, const VALUE buf, size_t count)
+ssize_t PYROPE_API w32_file_write(handle_t stream, const VALUE buf, size_t count)
 {
     unsigned int   amount_of_bytes_written;
 
@@ -61,7 +62,7 @@ ssize_t w32_file_write(handle_t stream, const VALUE buf, size_t count)
 }
 
 
-ssize_t w32_file_read(handle_t stream, VALUE buf, size_t count)
+ssize_t PYROPE_API w32_file_read(handle_t stream, VALUE buf, size_t count)
 {
     DWORD   amount_of_bytes_read;
 
@@ -81,7 +82,7 @@ ssize_t w32_file_read(handle_t stream, VALUE buf, size_t count)
 }
 
 
-int w32_file_flush(handle_t stream)
+gint PYROPE_API w32_file_flush(handle_t stream)
 {
     if ( pyrope_handle_is_invalid( stream ) )
         return -1;
@@ -90,7 +91,7 @@ int w32_file_flush(handle_t stream)
 }
 
 
-offset_t w32_file_seek(handle_t stream, offset_t offset, int origin)
+offset_t PYROPE_API w32_file_seek(handle_t stream, offset_t offset, int origin)
 {
     LARGE_INTEGER   large_offset;
     LARGE_INTEGER   current;
@@ -106,12 +107,12 @@ offset_t w32_file_seek(handle_t stream, offset_t offset, int origin)
 }
 
 
-gchar* w32_get_current_directory()
+gchar* PYROPE_API w32_get_current_directory()
 {
-    gchar*     fullpath_buffer         = NULL;
-    size_t      fullpath_buffer_size    = 0;
+    guint       ret;
 
-    uint32_t    ret;
+    gchar*      fullpath_buffer         = NULL;
+    size_t      fullpath_buffer_size    = 0;
 
     ret = GetCurrentDirectory( __STATIC_CAST(DWORD, fullpath_buffer_size),
                                fullpath_buffer
@@ -128,9 +129,9 @@ gchar* w32_get_current_directory()
 }
 
 
-gboolean w32_delete_file(const gchar* filepath)
+gboolean PYROPE_API w32_delete_file(const gchar* filepath)
 {
-    int ret;
+    gint    ret;
 
     if ( !filepath )
         return false;
@@ -143,9 +144,9 @@ gboolean w32_delete_file(const gchar* filepath)
 }
 
 
-gboolean w32_delete_directory(const gchar* dirpath)
+gboolean PYROPE_API w32_delete_directory(const gchar* dirpath)
 {
-    int ret;
+    gint    ret;
 
     if ( !dirpath )
         return false;
@@ -158,7 +159,7 @@ gboolean w32_delete_directory(const gchar* dirpath)
 }
 
 
-handle_t w32_find_begin(const gchar* path, WIN32_FIND_DATA* find_data)
+handle_t PYROPE_API w32_find_begin(const gchar* path, WIN32_FIND_DATA* find_data)
 {
     handle_t    ret;
 
@@ -171,7 +172,7 @@ handle_t w32_find_begin(const gchar* path, WIN32_FIND_DATA* find_data)
 }
 
 
-gboolean w32_find_next(handle_t find_handle, WIN32_FIND_DATA* find_data)
+gboolean PYROPE_API w32_find_next(handle_t find_handle, WIN32_FIND_DATA* find_data)
 {
     if ( pyrope_handle_is_invalid( find_handle ) || !find_data )
         return false;
@@ -180,7 +181,7 @@ gboolean w32_find_next(handle_t find_handle, WIN32_FIND_DATA* find_data)
 }
 
 
-gboolean w32_find_end(handle_t find_handle)
+gboolean PYROPE_API w32_find_end(handle_t find_handle)
 {
     if ( pyrope_handle_is_invalid( find_handle ) )
         return false;
@@ -189,13 +190,13 @@ gboolean w32_find_end(handle_t find_handle)
 }
 
 
-gchar*  w32_search_path(const gchar* find_path, const gchar* filename)
+gchar* PYROPE_API w32_search_path(const gchar* find_path, const gchar* filename)
 {
+    guint       ret;
+
     gchar*      result_path;
     size_t      result_path_length;
     gchar*      file_part;
-
-    guint       ret;
 
     if ( !find_path )
         return NULL;

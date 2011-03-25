@@ -1,26 +1,63 @@
-registory_t w32_registory_open( registory_t    parent_section,
-                                const gchar*   sub_section_name,
-                                access_mask_t  security_access_mask
-                             )
+#include <stdafx.h>
+#include <windows.h>
+
+#include <pyrope/_pyrope.h>
+#include <pyrope/registory.h>
+
+
+registory_t PYROPE_API w32_registory_open( registory_t     parent_section,
+                                           gchar*          subkey_name,
+                                           registry_mask_t mask_desired )
 {
-    long            ret;
-    regisotry_t     result_section;
+    registory_t     result;
+    gint            ret;
+
+    if ( !parent_section )
+        return NULL;
+    if ( !subkey_name )
+        return NULL;
+    if ( mask_desired == 0 )
+        mask_desired = KEY_QUERY_VALUE;
 
     ret = RegOpenKeyEx( parent_section,
-                        sub_section_name,
+                        subkey_name,
                         0,
-                        security_acess_mask,
-                        &result_section
-                        );
+                        mask_desired,
+                        &result );
 
-    if ( ret != ERROR_SUCCESS )
-        return INVALID_VALUE_HANDLE;
+    if ( ret == ERROR_SUCCESS )
+        return result;
 
-    return result_section;
+    return NULL;
 }
 
 
-gboolean w32_registory_close(registory_t section)
+gint PYROPE_API w32_registory_query_value( registory_t     parent_section,
+                                           gchar*          entry_name,
+                                           guint*          value_type,
+                                           gbyte*          value,
+                                           guint*          value_size )
 {
-    
+    gint    ret;
+
+    /*
+     * ì¡íËÇÃà¯êîÇ™ñ≥å¯Ç»Ç∆Ç´Ç… -1 Çï‘ÇµèIóπÇµÇ‹Ç∑ÅB
+     */
+    if ( !parent_section || !entry_name || !value || !value_size )
+        return -1;
+
+    ret = RegQueryValueEx( parent_section,
+                           entry_name,
+                           NULL,
+                           value_type,
+                           value,
+                           value_size );
+
+    return ret;
+}
+
+
+gint PYROPE_API w32_registory_close(registory_t self)
+{
+    return RegCloseKey( self );
 }
