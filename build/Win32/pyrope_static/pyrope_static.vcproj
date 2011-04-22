@@ -157,6 +157,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\..\src\debug.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\handle.c"
 				>
 			</File>
@@ -170,6 +174,14 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\w32_mutex.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\w32_process.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\w32_process_module.c"
 				>
 			</File>
 			<File
@@ -202,6 +214,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\include\pyrope\debug.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\include\pyrope\handle.h"
 					>
 				</File>
@@ -215,6 +231,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\include\pyrope\w32_mutex.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\include\pyrope\w32_process.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\include\pyrope\w32_process_module.h"
 					>
 				</File>
 				<File

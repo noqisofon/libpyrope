@@ -58,3 +58,4 @@
 *.zip
 tags
 *.diff
+commit/

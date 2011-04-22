@@ -3,7 +3,13 @@
 #include <pyrope/debug.h>
 
 
-gchar*  w32_str_error(guint err)
+gboolean PYROPE_API w32_beep(guint frequency, guint duration)
+{
+    return Beep( frequency, duration ) != 0;
+}
+
+
+gchar* PYROPE_API w32_str_error(guint err)
 {
     VALUE       message_buffer;
     gchar*      result_text;
